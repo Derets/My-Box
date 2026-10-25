@@ -7,63 +7,88 @@ import { LanguageContext } from "../../context/LanguageContext";
 import ScrollDown from "../../UI/ScrollDown";
 
 const Welcome = () => {
-  const [isMoved, setIsMoved] = useState(false);
-  const [showModel, setShowModel] = useState(false);
-  const orbitControlsRef = useRef(null);
-  const { language } = useContext(LanguageContext);
-  const isEnglish = language === "en";
+  const [titleBlockWidth, setTitleBlockWidth] = useState();
+  const [leftSpanWidth, setLeftSpanWidth] = useState();
+  const [centralSpanWidth, setCentralSpanWidth] = useState();
+
+  const lineHeight = 78;
+
+  let classLeft = {
+    transform: `translate3d(${
+      -(titleBlockWidth / 2) + leftSpanWidth + centralSpanWidth / 2
+    }px,${-lineHeight}px, 0)`,
+  };
+  let classCentral = {
+    transform: `translateX(${-(titleBlockWidth / 2) + centralSpanWidth / 2}px`,
+  };
+  let classRight = {
+    transform: `translate3d(${
+      -(titleBlockWidth / 2) - centralSpanWidth / 2
+    }px,${lineHeight}px, 0)`,
+  };
 
   useEffect(() => {
-    // Через 1.5 секунды после начального появления перестраиваем слова в колонку слева
-    const t1 = setTimeout(() => {
-      setIsMoved(true);
-    }, 1500);
-
-    // Через 2 секунды плавно проявляем 3D-модель
-    const t2 = setTimeout(() => {
-      setShowModel(true);
-      if (orbitControlsRef.current) {
-        orbitControlsRef.current.autoRotateSpeed = 40;
-        setTimeout(() => {
-          if (orbitControlsRef.current) {
-            orbitControlsRef.current.autoRotateSpeed = 4;
-          }
-        }, 600);
-      }
-    }, 2200);
+    let welcomeTitle = document.getElementById("welcomeTitle");
+    let ModelTop = document.getElementById("ModelTop");
+    welcomeTitle.classList.add(classes.textAnimationIncrease);
+    let timeout2;
+    let timeout3;
+    const timeout1 = setTimeout(
+      () => {
+        if (window.innerWidth > 1024) {
+          setTitleBlockWidth(
+            document.getElementById("welcomeTitle").offsetWidth
+          );
+          setLeftSpanWidth(document.getElementById("leftSpan").offsetWidth);
+          setCentralSpanWidth(
+            document.getElementById("centralSpan").offsetWidth
+          );
+        }
+        timeout2 = setTimeout(() => {
+          ModelTop.style.opacity = "1";
+          orbitControlsRef.current.autoRotateSpeed = 200;
+          timeout3 = setTimeout(() => {
+            orbitControlsRef.current.autoRotateSpeed = 5;
+          }, 500);
+        }, 500);
+      },
+      window.innerWidth > 1024 ? 4000 : 0
+    );
 
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      clearTimeout(timeout3);
     };
   }, []);
+
+  const orbitControlsRef = useRef(null);
+  const { language } = useContext(LanguageContext);
+  let isEnglish = language === "en";
 
   return (
     <section className={classes.WelcomeSection} id="welcomeSection">
       <ScrollDown />
       <div className={classes.wrapper}>
         <div className={classes.WelcomeContent}>
-          <div
-            className={`${classes.title} ${isMoved ? classes.titleMoved : ""}`}
-            id="welcomeTitle"
-          >
-            <span className={classes.leftSpan}>
-              {isEnglish ? "Design your" : "Створи свій"}
+          <div className={classes.title} id="welcomeTitle">
+            <span id="leftSpan" style={classLeft}>
+              {isEnglish ? "Design your" : "Створи свій"}&nbsp;
             </span>
-            <span className={classes.centralSpan}>
-              {isEnglish ? "gift box" : "гіфт бокс"}
+            <span
+              id="centralSpan"
+              style={classCentral}
+              className={classes.redSpan}
+            >
+              {isEnglish ? "gift box" : "гіфт бокс"}&nbsp;
             </span>
-            <span className={classes.rightSpan}>
+            <span id="rightSpan" style={classRight}>
               {isEnglish ? "right now!" : "прямо зараз!"}
             </span>
           </div>
 
-          <div
-            className={`${classes.ModelTop} ${
-              showModel ? classes.modelVisible : ""
-            }`}
-            id="ModelTop"
-          >
+          <div className={classes.ModelTop} id="ModelTop">
+            &nbsp;
             <Canvas className={classes.CanvasTop}>
               <OrbitControls
                 target={[0, 0, 0]}
