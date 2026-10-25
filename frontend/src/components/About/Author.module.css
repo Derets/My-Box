@@ -30,11 +30,13 @@
   margin: 30px;
 }
 .AuthorImg img {
-  height: 400px;
-  width: 400px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%; /* Смещает фокус кадра выше к макушке, благодаря чему само лицо опускается к центру */
+  transform: scale(1.15); /* Слегка приближает фото (можно поставить 1.1 - 1.25 по вкусу) */
   border-radius: 50%;
 }
-
 .AuthorLinks {
   display: flex;
   justify-content: center;

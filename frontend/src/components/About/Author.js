@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import classes from "./Author.module.css";
-import avatar from "../../assets/About/AVATAR2022.jpg";
+import avatar from "../../assets/About/avatarka.jpeg";
 import instagram from "../../assets/About/instagram.svg";
 import github from "../../assets/About/github.svg";
 import linkedin from "../../assets/About/linkedin.svg";
