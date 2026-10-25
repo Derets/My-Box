@@ -16,7 +16,7 @@ const AboutFinal = () => {
             <div className={classes.FTSubTitle}>
               {isEnglish
                 ? "All these aspects were carefully developed to create web applications capable of making three-dimensional reality designers of gift boxes. The proposed site presents it is the embodiment of logical completeness and efficiency functionality."
-                : "Усі ці аспекти були ретельно розроблені для створення веб-програми, здатні створювати тривимірну реальність дизайнери подарункових коробок. Запропонований сайт презентує це втілення логічної завершеності та ефективності функціональність."}
+                : "Усі ці аспекти були ретельно розроблені для створення веб програми, здатні створювати тривимірну реальність дизайнери подарункових коробок. Запропонований сайт презентує це втілення логічної завершеності та ефективності функціональність."}
             </div>
           </div>
           <div className={classes.FTImg}>
